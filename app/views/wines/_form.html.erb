@@ -19,7 +19,6 @@
 
   <div class="input-group mb-3">
     <span class="input-group-text">Strains</span>
-    <%= form.collection_select(:strain_id, Strain.order(:name), :id, :name, {prompt: 'Choose any Strain'}, {class: 'form-select form-select-sm'}) %>
     <%= form.collection_check_boxes(:strain_ids,
                                       Strain.all,
                                       :id,
@@ -32,7 +31,8 @@
     <span class="input-group-text">%</span>
   </div>
 
-  <!--Boton que se pueda colocar un "add to wine" -->
+  <!--Boton que se pueda colocar un "add to wine"      form.collection_select(:strain_id, Strain.order(:name), :id, :name, {prompt: 'Choose any Strain'}, {class: 'form-select form-select-sm'}) %>
+-->
 
   <div class="actions">
     <%= form.submit %>

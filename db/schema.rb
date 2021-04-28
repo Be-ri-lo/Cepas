@@ -10,13 +10,44 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_04_27_002515) do
+ActiveRecord::Schema.define(version: 2021_04_28_230315) do
+
+  create_table "enologists", force: :cascade do |t|
+    t.string "name"
+    t.integer "age"
+    t.string "nationality"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.integer "job_sort", default: 1
+  end
 
   create_table "strains", force: :cascade do |t|
     t.string "name"
     t.boolean "available"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+  end
+
+  create_table "users", force: :cascade do |t|
+    t.string "email", default: "", null: false
+    t.string "encrypted_password", default: "", null: false
+    t.string "reset_password_token"
+    t.datetime "reset_password_sent_at"
+    t.datetime "remember_created_at"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.boolean "admin", default: false
+    t.index ["email"], name: "index_users_on_email", unique: true
+    t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
+  end
+
+  create_table "wine_enologists", force: :cascade do |t|
+    t.integer "wine_id", null: false
+    t.integer "enologist_id", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["enologist_id"], name: "index_wine_enologists_on_enologist_id"
+    t.index ["wine_id"], name: "index_wine_enologists_on_wine_id"
   end
 
   create_table "wine_strains", force: :cascade do |t|
@@ -33,8 +64,11 @@ ActiveRecord::Schema.define(version: 2021_04_27_002515) do
     t.string "name"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.integer "score"
   end
 
+  add_foreign_key "wine_enologists", "enologists"
+  add_foreign_key "wine_enologists", "wines"
   add_foreign_key "wine_strains", "strains"
   add_foreign_key "wine_strains", "wines"
 end
